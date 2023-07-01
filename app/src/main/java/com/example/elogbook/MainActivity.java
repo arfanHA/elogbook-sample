@@ -1,14 +1,10 @@
 package com.example.elogbook;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,10 +24,9 @@ public class MainActivity extends AppCompatActivity {
         tvTimestamp = findViewById(R.id.text_timestamp);
 
         String packageName = "com.intelion.ifip";
-        String action = "com.intelion.ifip.OPEN_ACTIVITY";
+        String action = "com.intelion.ifip.ELOGBOOK_ACTION_ACTIVITY";
 
         button.setOnClickListener(v -> {
-//            Toast.makeText(getApplicationContext(), "REQUEST SEND, and OPEN IFIP", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(action);
             intent.setPackage(packageName);
             if (intent != null) {
@@ -58,10 +53,8 @@ public class MainActivity extends AppCompatActivity {
                     tvLocation.setText(location);
                     tvAccuracy.setText(accuracy);
                     tvTimestamp.setText(timestamp);
-
                 }
             }
         }
     }
-
 }

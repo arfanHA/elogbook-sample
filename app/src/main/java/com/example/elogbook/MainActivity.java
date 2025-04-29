@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button button = findViewById(R.id.button_open_ifip);
-        tvIndex = findViewById(R.id.text_index);
+//        tvIndex = findViewById(R.id.text_index);
         tvSpecies = findViewById(R.id.text_species);
         tvLocation = findViewById(R.id.text_gps_location);
         tvAccuracy = findViewById(R.id.text_accuracy);
@@ -29,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(v -> {
             Intent intent = new Intent(action);
             intent.setPackage(packageName);
+
+            // Clear/reset previous data
+            tvSpecies.setText(getString(R.string.species_name));
+            tvLocation.setText(getString(R.string.gps_location));
+            tvAccuracy.setText(getString(R.string.accuracy));
+            tvTimestamp.setText(getString(R.string.timestamp));
+
             if (intent != null) {
                 startActivityForResult(intent, IFIP_REQUEST_CODE);
             }
@@ -43,16 +50,24 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Bundle bundle = data.getBundleExtra("imageData");
                 if (bundle != null) {
-                    String id = bundle.getString("id");
+//                    String id = bundle.getString("id");
                     String species = bundle.getString("species");
                     String location = bundle.getString("location");
                     String accuracy = bundle.getString("accuracy");
                     String timestamp = bundle.getString("timestamp");
-                    tvIndex.setText(id);
-                    tvSpecies.setText(species);
-                    tvLocation.setText(location);
-                    tvAccuracy.setText(accuracy);
-                    tvTimestamp.setText(timestamp);
+//                    tvIndex.setText(tvIndex.getText() + ": " + id);
+                    tvSpecies.setText(tvSpecies.getText() + ": " + species);
+                    tvLocation.setText(tvLocation.getText() + ": " + location);
+                    tvTimestamp.setText(tvTimestamp.getText() + ": " + timestamp);
+                    try {
+                        double accuracyValue = Double.parseDouble(accuracy);
+                        String formattedAccuracy = String.format("%s: %.2f%%", getString(R.string.accuracy), accuracyValue * 100);
+                        tvAccuracy.setText(formattedAccuracy);
+                    } catch (NumberFormatException e) {
+                        tvAccuracy.setText(String.format("%s: %s", getString(R.string.accuracy), accuracy)); // fallback
+                    }
+
+
                 }
             }
         }

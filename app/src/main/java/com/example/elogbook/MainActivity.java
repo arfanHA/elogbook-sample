@@ -2,14 +2,17 @@ package com.example.elogbook;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     Integer IFIP_REQUEST_CODE = 1990;
     TextView tvIndex,tvSpecies, tvLocation, tvAccuracy, tvTimestamp;
+    ImageView imagePreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         tvLocation = findViewById(R.id.text_gps_location);
         tvAccuracy = findViewById(R.id.text_accuracy);
         tvTimestamp = findViewById(R.id.text_timestamp);
+        imagePreview = findViewById(R.id.image_preview);
 
         String packageName = "com.intelion.ifip";
         String action = "com.intelion.ifip.ELOGBOOK_ACTION_ACTIVITY";
@@ -67,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
                         tvAccuracy.setText(String.format("%s: %s", getString(R.string.accuracy), accuracy)); // fallback
                     }
 
+                    // 💥 Load image preview
+                    Uri imageUri = bundle.getParcelable("imageUri");
+                    if (imageUri != null) {
+                        imagePreview.setImageURI(imageUri); // OR use Glide/Picasso for better handling
+                    }
 
                 }
             }
